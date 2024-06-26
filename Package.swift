@@ -35,7 +35,7 @@ let package = Package(
             path: "Sources/CSmoldot"),
         
         .binaryTarget(
-            name: "smoldot",
+            name: "Smoldot",
             url: "https://github.com/finsig/smoldot-swift/releases/download/0.1.0/smoldot.xcframework.zip",
             checksum: "7aff9a11e6333d214e8d7975d388766c591e1165506af382c356b3aff6898210"),
         
