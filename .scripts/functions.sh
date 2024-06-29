@@ -17,7 +17,7 @@ log::info() {
 }
 
 env::setup() {
-    log::message "Settig up env"
+    log::message "Setting up env"
     if [ -z $PACKAGE_VERSION ]; then
         log::error 'Must specify $PACKAGE_VERSION'
         exit -1
