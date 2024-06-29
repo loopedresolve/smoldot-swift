@@ -6,7 +6,9 @@ DEFAULT_VERSION='0.1.0'
 
 if [ "dev" = "$1" ]; then
     log::message "Building development version"
-    /bin/zsh ".scripts/dev.sh" $2
+    /bin/zsh ".scripts/dev.sh" debug
+    #echo $1
+    #exit 1
 elif test -f ".scripts/$1.sh"; then
     log::message "Building version $1"
     /bin/zsh ".scripts/$1.sh" $2

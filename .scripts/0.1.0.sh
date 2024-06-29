@@ -19,9 +19,11 @@ rust::build
 build::lipo
 build::xcframework
 
+package::use_remote_binary_target
+
 post_build::compress
 post_build::success
 
 #post_build::copy_to_package
-#swift_package::use_local_binary_target
-#swift_package::use_remote_binary_target
+#package::use_local_binary_target
+#package::use_remote_binary_target

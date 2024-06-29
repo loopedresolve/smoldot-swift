@@ -181,7 +181,7 @@ post_build::compress() {
     fi
 }
 
-post_build::copy_to_package() {
+post_build::copy_framework_to_package() {
     log::message "Copy xcframework to package"
     mkdir -p $ROOT_DIRECTORY/Libs/smoldot.xcframework
     cp -r $BUILD_DIRECTORY/build/$PACKAGE_VERSION/$BUILD_CONFIG/smoldot.xcframework/. $ROOT_DIRECTORY/Libs/smoldot.xcframework
@@ -190,10 +190,12 @@ post_build::copy_to_package() {
 post_build::success() {
     log::success "▸ BUILD SUCCESSFUL!"
     log::success ''
-    log::success "Built artifacts can be found at $BUILD_DIRECTORY/build/$PACKAGE_VERSION/$BUILD_CONFIG"
+    if [ $BUILD_CONFIG = "release" ]; then
+        log::success "Built artifacts can be found at $BUILD_DIRECTORY/build/$PACKAGE_VERSION/$BUILD_CONFIG"
+    fi
 }
 
-swift_package::use_local_binary_target() {
+package::use_local_binary_target() {
     # assertion: only one binary target
     if ! grep -q '\/\*.binaryTarget.*checksum.*\*\/' $ROOT_DIRECTORY/Package.swift; then # is using remote
         sed -i '' 's/.binaryTarget.*checksum.*/\/\*&\*\//' $ROOT_DIRECTORY/Package.swift # comment out remote
@@ -201,7 +203,7 @@ swift_package::use_local_binary_target() {
     sed -i '' 's/\/\*\(.binaryTarget.*path:.*),\)\*\//\1/' $ROOT_DIRECTORY/Package.swift # uncomment local
 }
 
-swift_package::use_remote_binary_target() {
+package::use_remote_binary_target() {
     # assertion: only one binary target
     if ! grep -q '\/\*.binaryTarget.*path.*\*\/' $ROOT_DIRECTORY/Package.swift; then    # is using local
         sed -i '' 's/.binaryTarget.*path.*),/\/\*&\*\//' $ROOT_DIRECTORY/Package.swift  # comment out local
