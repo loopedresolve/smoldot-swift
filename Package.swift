@@ -41,10 +41,8 @@ let package = Package(
         /// Release
         .binaryTarget(name: "smoldot", url: "https://github.com/finsig/smoldot-swift/releases/download/v0.1.0/smoldot.xcframework.zip", checksum: "7aff9a11e6333d214e8d7975d388766c591e1165506af382c356b3aff6898210"),
         
-        
         /// Development
         /*.binaryTarget(name: "smoldot", path: "Libs/smoldot.xcframework"),*/
-        
         
         .testTarget(
             name: "SmoldotSwiftTests",
