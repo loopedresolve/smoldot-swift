@@ -179,7 +179,8 @@ post_build::compress() {
 
 post_build::copy_to_package() {
     log::message "Copy xcframework to package"
-    cp -r $BUILD_DIRECTORY/build/$PACKAGE_VERSION/$BUILD_CONFIG/smoldot.xcframework $ROOT_DIRECTORY/Libs/
+    mkdir -p $ROOT_DIRECTORY/Libs/smoldot.xcframework
+    cp -r $BUILD_DIRECTORY/build/$PACKAGE_VERSION/$BUILD_CONFIG/smoldot.xcframework/. $ROOT_DIRECTORY/Libs/smoldot.xcframework
 }
 
 post_build::success() {
