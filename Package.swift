@@ -34,12 +34,17 @@ let package = Package(
             dependencies: ["smoldot"],
             path: "Sources/CSmoldot"),
         
-        .binaryTarget(
-            name: "smoldot",
-            url: "https://github.com/finsig/smoldot-swift/releases/download/v0.1.0/smoldot.xcframework.zip",
-            checksum: "7aff9a11e6333d214e8d7975d388766c591e1165506af382c356b3aff6898210"),
+        ///
+        /// - IMPORTANT: When editing this file manually, use a single line of code (newline terminated) for the binary target. This preserves/simplifies sed script compatibility.
+        ///
         
-//        .binaryTarget(name: "Smoldot", path: "Libs/smoldot.xcframework"), // When building the xcframework locally
+        /// Release
+        .binaryTarget(name: "smoldot", url: "https://github.com/finsig/smoldot-swift/releases/download/v0.1.0/smoldot.xcframework.zip", checksum: "7aff9a11e6333d214e8d7975d388766c591e1165506af382c356b3aff6898210"),
+        
+        
+        /// Development
+        /*.binaryTarget(name: "smoldot", path: "Libs/smoldot.xcframework"),*/
+        
         
         .testTarget(
             name: "SmoldotSwiftTests",

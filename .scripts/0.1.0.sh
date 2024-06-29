@@ -22,4 +22,6 @@ build::xcframework
 post_build::compress
 post_build::success
 
-post_build::copy_to_package
+#post_build::copy_to_package
+#swift_package::use_local_binary_target
+#swift_package::use_remote_binary_target

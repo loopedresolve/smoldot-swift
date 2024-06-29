@@ -192,3 +192,19 @@ post_build::success() {
     log::success ''
     log::success "Built artifacts can be found at $BUILD_DIRECTORY/build/$PACKAGE_VERSION/$BUILD_CONFIG"
 }
+
+swift_package::use_local_binary_target() {
+    # assertion: only one binary target
+    if ! grep -q '\/\*.binaryTarget.*checksum.*\*\/' $ROOT_DIRECTORY/Package.swift; then # is using remote
+        sed -i '' 's/.binaryTarget.*checksum.*/\/\*&\*\//' $ROOT_DIRECTORY/Package.swift # comment out remote
+    fi
+    sed -i '' 's/\/\*\(.binaryTarget.*path:.*),\)\*\//\1/' $ROOT_DIRECTORY/Package.swift # uncomment local
+}
+
+swift_package::use_remote_binary_target() {
+    # assertion: only one binary target
+    if ! grep -q '\/\*.binaryTarget.*path.*\*\/' $ROOT_DIRECTORY/Package.swift; then    # is using local
+        sed -i '' 's/.binaryTarget.*path.*),/\/\*&\*\//' $ROOT_DIRECTORY/Package.swift  # comment out local
+    fi
+    sed -i '' 's/\/\*\(.binaryTarget.*checksum:.*),\)\*\//\1/' $ROOT_DIRECTORY/Package.swift # uncomment remote
+}
