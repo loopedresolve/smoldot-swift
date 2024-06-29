@@ -182,7 +182,7 @@ post_build::compress() {
 }
 
 post_build::copy_framework_to_package() {
-    log::message "Copy xcframework to package"
+    log::message "Copy framework artifact to package"
     mkdir -p $ROOT_DIRECTORY/Libs/smoldot.xcframework
     cp -r $BUILD_DIRECTORY/build/$PACKAGE_VERSION/$BUILD_CONFIG/smoldot.xcframework/. $ROOT_DIRECTORY/Libs/smoldot.xcframework
 }
@@ -197,16 +197,31 @@ post_build::success() {
 
 package::use_local_binary_target() {
     # assertion: only one binary target
+    log::message "Modify Package.swift"
+    log::info "Comment out remote binary target"
     if ! grep -q '\/\*.binaryTarget.*checksum.*\*\/' $ROOT_DIRECTORY/Package.swift; then # is using remote
         sed -i '' 's/.binaryTarget.*checksum.*/\/\*&\*\//' $ROOT_DIRECTORY/Package.swift # comment out remote
     fi
+    
+    log::info "Uncommment local binary target"
     sed -i '' 's/\/\*\(.binaryTarget.*path:.*),\)\*\//\1/' $ROOT_DIRECTORY/Package.swift # uncomment local
 }
 
 package::use_remote_binary_target() {
     # assertion: only one binary target
+    log::message "Modify Package.swift"
+    log::info "Comment out local binary target"
     if ! grep -q '\/\*.binaryTarget.*path.*\*\/' $ROOT_DIRECTORY/Package.swift; then    # is using local
         sed -i '' 's/.binaryTarget.*path.*),/\/\*&\*\//' $ROOT_DIRECTORY/Package.swift  # comment out local
     fi
+    
+    log::info "Uncommment remote binary target"
     sed -i '' 's/\/\*\(.binaryTarget.*checksum:.*),\)\*\//\1/' $ROOT_DIRECTORY/Package.swift # uncomment remote
+}
+
+package::remove_local_artifact() {
+    log::message "Remove local framework artifact from package"
+    if [ -d $ROOT_DIRECTORY/Libs ]; then
+        rm -r $ROOT_DIRECTORY/Libs
+    fi
 }

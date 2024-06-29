@@ -20,6 +20,7 @@ build::lipo
 build::xcframework
 
 package::use_remote_binary_target
+package::remove_local_artifact
 
 post_build::compress
 post_build::success
