@@ -24,7 +24,3 @@ package::remove_local_artifact
 
 post_build::compress
 post_build::success
-
-#post_build::copy_to_package
-#package::use_local_binary_target
-#package::use_remote_binary_target
