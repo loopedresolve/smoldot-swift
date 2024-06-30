@@ -62,19 +62,24 @@ To disconnect the client from the network use:
 try Client.shared.remove(chain: &chain)
 ````
 
+
+For additional information about usage see [documentation](https://finsig.github.io/smoldot-swift/documentation/smoldotswift/).
+
 **Logging**
 
 You may enable logging of the smoldot Rust FFI library with an environment variable at runtime (`RUST_LOG`). The library uses the Rust`env_logger` framework and levels can be set accordingly.
 
-<<Placeholder: screenshot>>
-
 **Building locally**
 
-There is a build_xcframework.sh script in the repo which can be used to build the XCFramework from the smoldot Rust FFI library. This will create the framework and place it (along with the checksum) in the `.build/smoldot-framework/build` directory.
+There is a build_xcframework.sh script in the repo which can be used to build the XCode Framework target from the smoldot Rust FFI library. 
 
 ```
-> zsh build_xcframework.sh 
+> zsh build_xcframework.sh dev
 ```
 
-Example Project
-An example project using Smoldot Swift.
+Omitting the `dev` argument will modify the package settings to use a remote binary target and create a compressed framework file (along with the checksum value).
+
+
+**Testing**
+
+In addition to unit tests please see this [project](https://github.com/finsig/smoldot-swift-performance) for memory usage profiling.
