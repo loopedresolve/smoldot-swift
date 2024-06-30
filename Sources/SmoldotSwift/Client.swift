@@ -89,10 +89,10 @@ public final class Client {
         smoldot_json_rpc_request(id, string)
     }
     
-    /// Delivers an asynchronous stream of string format JSON responses.
+    /// Delivers a stream of string format JSON responses asynchronously.
     ///
     /// - Parameter chain: The chain to deliver responses from.
-    /// - Parameter bufferingPolicy:A strategy that handles exhaustion of the stream buffer capacity
+    /// - Parameter bufferingPolicy:A strategy that handles exhaustion of the stream buffer capacity.
     ///
     /// - Returns: A stream of asynchronously-delivered chain response strings.
     ///
@@ -118,7 +118,7 @@ public final class Client {
         })
     }
     
-    /// Delivers an asynchronous stream of string format JSON responses.
+    /// Delivers a  string format JSON response asynchronously.
     ///
     /// - Parameter chain: The chain to get a response from.
     ///
