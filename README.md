@@ -63,7 +63,7 @@ try Client.shared.remove(chain: &chain)
 ````
 
 
-For additional information about usage see [documentation](https://finsig.github.io/smoldot-swift/documentation/smoldotswift/).
+For additional information about usage see [reference documentation](https://finsig.github.io/smoldot-swift/documentation/smoldotswift/).
 
 ## Logging
 
@@ -74,7 +74,7 @@ You may enable logging of the smoldot Rust FFI library with an environment varia
 There is a build_xcframework.sh script in the repo which can be used to build the XCode Framework target from the smoldot Rust FFI library. 
 
 ```zsh
-> zsh build_xcframework.sh dev
+$ zsh build_xcframework.sh dev
 ```
 
 Omitting the `dev` argument will modify the package settings to use a remote binary target and create a compressed framework file (along with the checksum value).
@@ -83,3 +83,7 @@ Omitting the `dev` argument will modify the package settings to use a remote bin
 ## Testing
 
 In addition to unit tests please see this [project](https://github.com/finsig/smoldot-swift-performance) for memory usage profiling.
+
+## Bug Reports
+
+See [GitHub issues](https://github.com/finsig/smoldot-swift/issues) regarding log noise.
