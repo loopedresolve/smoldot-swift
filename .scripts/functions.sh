@@ -29,7 +29,7 @@ env::setup() {
     log::info "ROOT_DIRECTORY=$ROOT_DIRECTORY"
     export BUILD_DIRECTORY=${BUILD_DIRECTORY:-"$ROOT_DIRECTORY/.build/smoldot-framework"}
     log::info "BUILD_DIRECTORY=$BUILD_DIRECTORY"
-    export RUST_TOOLCHAIN=${RUST_TOOLCHAIN:-'nightly'}
+    export RUST_TOOLCHAIN=${RUST_TOOLCHAIN:-'nightly-2024-06-30'}
     log::info "RUST_TOOLCHAIN=$RUST_TOOLCHAIN"
     
     export CHECKOUTS_DIRECTORY=${CHECKOUTS_DIRECTORY:-"$ROOT_DIRECTORY/.build/checkouts"}
