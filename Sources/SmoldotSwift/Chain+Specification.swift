@@ -16,12 +16,34 @@
 
 import Foundation
 
+extension Chain {
+    
+    ///  Chain Specification.
+    ///
+    ///  A Chain Specification is the collection of information that describes a Polkadot-based blockchain
+    ///  network. For example, the chain specification identifies the network that a blockchain node
+    ///  connects to, the other nodes that it initially communicates with, and the initial state that nodes
+    ///  must agree on to produce blocks.
+    ///
+    ///  A typelias is used rather than defining an explicit type so that Foundation `JSONSerialization` can be
+    ///  used to convert the JSON into a Foundation `Dictionary` type representation of the object where the
+    ///  values of keys are of type `Any`.
+    ///
+    ///  Using `JSONSerialization` rather than `JSONDecode` provides flexibility in the structure of the
+    ///  JSONObject. The correctness of the JSON is enforced at the FFI call site.
+    ///
+    public typealias Specification = JSONObject
+}
+
+
 extension Chain.Specification {
     
+    /// Guaranteed to exist in the JSON Object as it is a required method on the Rust ChainSpec trait.
     public var name: String {
         return self["name"] as! String
     }
     
+    /// Guaranteed to exist in the JSON Object as it is a required method on the Rust ChainSpec trait.
     var id: String {
         return self["id"] as! String
     }
