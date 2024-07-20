@@ -35,6 +35,7 @@ extension Chain {
     public typealias Specification = JSONObject
 }
 
+#warning("TODO: revisit comments")
 
 extension Chain.Specification {
     
