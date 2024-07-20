@@ -37,10 +37,19 @@ fileprivate extension Chain {
         guard let fileURL = Bundle.module.url(forResource: name, withExtension: "json") else {
             fatalError()
         }
-        guard let data = try? Data(contentsOf: fileURL) else {
+        self.init(specificationFileURL: fileURL)
+    }
+}
+
+
+public extension Chain {
+    convenience init(specificationFileURL url: URL) {
+        guard let data = try? Data(contentsOf: url) else {
+#warning("TODO: throw explicit error")
             fatalError()
         }
         guard let jsonObject = try? JSONSerialization.jsonObject(with: data) as? JSONObject else {
+#warning("TODO: throw explicit error")
             fatalError()
         }
         self.init(specification: jsonObject)
