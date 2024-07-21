@@ -29,12 +29,36 @@ public final class Chain: Hashable {
     ///  
     internal typealias Id = Int
     
-    ///  Creates a Chain from the provided Chain Specification.
+    ///  Chain Specification.
+    ///
+    ///  A Chain Specification is the collection of information that describes a Polkadot-based blockchain
+    ///  network. For example, the chain specification identifies the network that a blockchain node
+    ///  connects to, the other nodes that it initially communicates with, and the initial state that nodes
+    ///  must agree on to produce blocks.
+    ///
+    ///  A typelias is used rather than defining an explicit type so that Foundation `JSONSerialization` can be
+    ///  used to convert the JSON into a `Dictionary` type representation of the object where the
+    ///  values of keys are of type `Any`.
+    ///
+    ///  Using `JSONSerialization` rather than `JSONDecode` provides flexibility in the structure of the
+    ///  JSON object. The conformance of the JSON object to the Chain Specification format  is enforced by
+    ///  the Rust FFI call site.
+    ///
+    public typealias Specification = JSONObject
+    
+    ///  Creates a Chain from the a Chain Specification JSON object.
     ///
     ///  See ``Specification`` for more information.
     ///
     public init(specification: Specification) {
         self.specification = specification
+    }
+    
+    ///  Creates a Chain from a Chain Specification JSON file.
+    public convenience init(specificationFile url: URL) throws {
+        let data = try Data(contentsOf: url)
+        let jsonObject = try JSONSerialization.jsonObject(with: data) as! JSONObject
+        self.init(specification: jsonObject)
     }
     
     public func hash(into hasher: inout Hasher) {
