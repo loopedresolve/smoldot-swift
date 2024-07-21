@@ -22,13 +22,8 @@ let package = Package(
                 "CSmoldot",
                 .product(name: "JSONRPC2", package: "json-rpc2"),
             ],
-            path: "Sources/SmoldotSwift",
-            resources: [
-                .process("Resources/polkadot.json"),
-                .process("Resources/kusama.json"),
-                .process("Resources/rococo.json"),
-                .process("Resources/westend.json")]
-            ),
+            path: "Sources/SmoldotSwift"
+        ),
         .target(
             name: "CSmoldot",
             dependencies: ["smoldot"],
