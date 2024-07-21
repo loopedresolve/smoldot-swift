@@ -8,7 +8,16 @@ final class SmoldotSwiftTests: XCTestCase {
     var chain: Chain!
     
     override func setUp() async throws {
-        chain = Chain(specification: .polkadot)
+        ///
+        /// Chain specification file to use for testing. If adding a file, be sure to update `.testTarget`
+        /// resources in `Package.swift`.
+        ///
+        let url = Bundle.module.url(forResource: "polkadot", withExtension: "json")!
+        //let url = Bundle.module.url(forResource: "kusama", withExtension: "json")!
+        //let url = Bundle.module.url(forResource: "rococo", withExtension: "json")!
+        //let url = Bundle.module.url(forResource: "westend", withExtension: "json")!
+        
+        chain = try Chain(specificationFile: url)
     }
     
     func testAddChain() throws {
@@ -95,7 +104,7 @@ final class SmoldotSwiftTests: XCTestCase {
 
 }
 
-
+/*
 fileprivate extension Chain.Specification {
     
     static var polkadot: JSONObject {
@@ -119,3 +128,4 @@ fileprivate extension Chain.Specification {
         return jsonObject
     }
 }
+*/

@@ -46,6 +46,13 @@ let package = Package(
         
         .testTarget(
             name: "SmoldotSwiftTests",
-            dependencies: ["SmoldotSwift"]),
+            dependencies: ["SmoldotSwift"],
+            resources: [
+                .process("Resources/polkadot.json"),
+                .process("Resources/kusama.json"),
+                .process("Resources/rococo.json"),
+                .process("Resources/westend.json")]
+        ),
+        
     ]
 )
