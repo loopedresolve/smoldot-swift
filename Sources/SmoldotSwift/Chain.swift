@@ -36,13 +36,13 @@ public final class Chain: Hashable {
     ///  connects to, the other nodes that it initially communicates with, and the initial state that nodes
     ///  must agree on to produce blocks.
     ///
-    ///  A typelias is used rather than defining an explicit type so that Foundation `JSONSerialization` can be
-    ///  used to convert the JSON into a `Dictionary` type representation of the object where the
-    ///  values of keys are of type `Any`.
+    ///  A typelias is used rather than defining an explicit type so that Foundation `JSONSerialization` 
+    ///  can be used to convert the JSON into a `Dictionary` type representation of the object with key
+    ///  values  of type `Any`.
     ///
-    ///  Using `JSONSerialization` rather than `JSONDecode` provides flexibility in the structure of the
-    ///  JSON object. The conformance of the JSON object to the Chain Specification format  is enforced by
-    ///  the Rust FFI call site.
+    ///  - Important:
+    ///  Niether the validity of the Chain Specification JSON nor its conformance to the ChainSpec trait
+    ///  is handled by Swift and will produce fatal error information in the Rust environment logger.
     ///
     public typealias Specification = JSONObject
     
@@ -57,8 +57,8 @@ public final class Chain: Hashable {
     ///  Creates a Chain from a Chain Specification JSON file.
     public convenience init(specificationFile url: URL) throws {
         let data = try Data(contentsOf: url)
-        let jsonObject = try JSONSerialization.jsonObject(with: data) as! JSONObject
-        self.init(specification: jsonObject)
+        let specification = try JSONSerialization.jsonObject(with: data) as! Specification
+        self.init(specification: specification)
     }
     
     public func hash(into hasher: inout Hasher) {
