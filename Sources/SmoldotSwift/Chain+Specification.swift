@@ -16,17 +16,17 @@
 
 import Foundation
 
-#warning("TODO: revisit comments")
-
 extension Chain.Specification {
-    
-    /// Guaranteed to exist in the JSON Object as it is a required method on the Rust ChainSpec trait.
+
+    /// Chain name as defined in the specification.
     public var name: String {
+        precondition(self["name"] != nil, "Chain Specification is missing required key `name`")
         return self["name"] as! String
     }
     
-    /// Guaranteed to exist in the JSON Object as it is a required method on the Rust ChainSpec trait.
+    /// Chain identifier as defined in the specification.
     var id: String {
+        precondition(self["id"] != nil, "Chain Specification is missing required key `id`")
         return self["id"] as! String
     }
 }
