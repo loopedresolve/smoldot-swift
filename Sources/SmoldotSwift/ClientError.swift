@@ -16,10 +16,8 @@
 
 import Foundation
 
-public struct ClientError: Error, CustomStringConvertible {
-    let message: String
-    
-    public var description: String {
-        return "[error: \(message)]"
-    }
+public enum ClientError: Error {
+    case chainHasAlreadyBeenAdded
+    case chainNotFound
+    case errorEncodingRequest
 }

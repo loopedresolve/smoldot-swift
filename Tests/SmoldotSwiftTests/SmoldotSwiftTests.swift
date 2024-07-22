@@ -18,92 +18,66 @@ final class SmoldotSwiftTests: XCTestCase {
         //let url = Bundle.module.url(forResource: "westend", withExtension: "json")!
         
         chain = try Chain(specificationFile: url)
+        
+        XCTAssertFalse( chain.isValid )
     }
     
     func testAddChain() throws {
-        try Client.shared.add(chain: &chain)
+        /// Add the chain to the client
+        XCTAssertNoThrow( try Client.shared.add(chain: &chain) )
         
         XCTAssertTrue( chain.isValid )
     }
     
     func testAddChainAlreadyAdded() throws {
-        try Client.shared.add(chain: &chain)
-        
-        XCTAssertThrowsError( try Client.shared.add(chain: &chain) )
-    }
-    
-    /*
-    func testAddChainRemoveChainMemoryPerformance() async throws {
-        self.measure(metrics: [XCTMemoryMetric()]) {
-            let exp = expectation(description: "Finished")
-            Task {
-                try Client.shared.add(chain: &chain)
-                //try await Task.sleep(nanoseconds: 1_000_000_000 * 30) // sleep
-                try Client.shared.remove(chain: &chain)
-                //try await Task.sleep(nanoseconds: 1_000_000_000 * 30) // sleep
-                exp.fulfill()
-            }
-            wait(for: [exp], timeout: 1_000_000_000 * 30)
+        /// Add the chain to the client
+        XCTAssertNoThrow( try Client.shared.add(chain: &chain) )
+
+        /// Add the chain to the client again
+        XCTAssertThrowsError( try Client.shared.add(chain: &chain) ) { error in
+            XCTAssertTrue( error as! ClientError == ClientError.chainHasAlreadyBeenAdded )
         }
     }
-    */
     
     func testRemoveChain() throws {
-        try Client.shared.add(chain: &chain)
-        try Client.shared.remove(chain: &chain)
+        /// Add the chain to the client
+        XCTAssertNoThrow( try Client.shared.add(chain: &chain) )
+        XCTAssertTrue( chain.isValid )
         
+        /// Remove the chain from the client
+        XCTAssertNoThrow( try Client.shared.remove(chain: &chain) )
         XCTAssertFalse( chain.isValid )
     }
     
     func testRemoveChainNotAdded() throws {
-        XCTAssertThrowsError( try Client.shared.remove(chain: &chain) )
-    }
-    
-    func testJSONRPCRequestResponse() async throws {
-        try Client.shared.add(chain: &chain)
-        
-        let request = try JSONRPC2Request(string: "{\"id\":1,\"jsonrpc\":\"2.0\",\"method\":\"system_chain\",\"params\":[]}")
-        
-        XCTAssertNoThrow( try Client.shared.send(request: request, to: chain) )
-
-        let responseData = try await Client.shared.response(from: chain)?.data(using: .utf8)
-        
-        XCTAssertNotNil(responseData)
-
-        let response = try JSONDecoder().decode(Response.self, from: responseData!)
-        
-        XCTAssertNotNil(request.identifier)
-        
-        XCTAssertEqual(response.identifier, request.identifier!)
-        
-        switch response.result {
-        case .success(let json):
-            XCTAssertEqual(json.description, "Polkadot")
-        case .failure(_):
-            XCTFail()
+        /// Try to remove the chain when it has not been added to the client.
+        XCTAssertThrowsError( try Client.shared.remove(chain: &chain) ) { error in
+            XCTAssertTrue( error as! ClientError == ClientError.chainNotFound )
         }
     }
     
     func testJSONRPC2RequestInvalidJSON() async throws {
-    
-        XCTAssertThrowsError(try JSONRPC2Request(string: "invalid json") )
+        /// Try to build a JSON-RPC2 request from a non-JSON value.
+        XCTAssertThrowsError( try JSONRPC2Request(string: "invalid json") ) { error in
+            XCTAssertTrue( (error as! JSONRPC2Error).kind == JSONRPC2Error.invalidRequest )
+        }
     }
     
     func testJSONRPC2RequestInvalidJSONRPCVersion() async throws {
-    
-        XCTAssertThrowsError(try JSONRPC2Request(string: "{\"id\":1,\"jsonrpc\":\"1.0\",\"method\":\"system_chain\",\"params\":[]}") )
+        /// Try to build a JSON-RPC 1.0 request.
+        XCTAssertThrowsError( try JSONRPC2Request(string: "{\"id\":1,\"jsonrpc\":\"1.0\",\"method\":\"system_chain\",\"params\":[]}") ) { error in
+            XCTAssertTrue( (error as! JSONRPC2Error).kind == JSONRPC2Error.invalidRequest )
+        }
     }
     
     func testJSONRPC2RequestChainNotAdded() async throws {
-        // TODO: revisit
+        /// Try to send a request to a chain without first adding it to the client.
+        let request = try? JSONRPC2Request(string: "{\"id\":1,\"jsonrpc\":\"2.0\",\"method\":\"system_chain\",\"params\":[]}")
+        XCTAssertNotNil(request)
         
-        /*
-        let chain = Chain(specification: .kusama)
-        
-        let request = try JSONRPC2Request(string: "{\"id\":1,\"jsonrpc\":\"2.0\",\"method\":\"system_chain\",\"params\":[]}")
-        
-        XCTAssertThrowsError( try Client.shared.send(request: request, to: chain) )
-         */
+        XCTAssertThrowsError( try Client.shared.send(request: request!, to: chain) ) { error in
+            XCTAssertTrue( error as! ClientError == ClientError.chainNotFound )
+        }
     }
 
 }

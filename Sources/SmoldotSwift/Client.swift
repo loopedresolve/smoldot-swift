@@ -52,11 +52,9 @@ public final class Client {
     ///
     public func add(chain: inout Chain) throws {
         guard !chain.isValid else {
-            throw ClientError(message: "Chain has already been added.")
+            throw ClientError.chainHasAlreadyBeenAdded
         }
-        guard let data = try? JSONSerialization.data(withJSONObject: chain.specification) else {
-            throw ClientError(message: "Invalid JSON object.") /// note: checks for validity only, does not check Chain Specification JSON object correctness. intentional.
-        }
+        let data = try JSONSerialization.data(withJSONObject: chain.specification)
         let string = String(data: data, encoding: .utf8)
         chain.id = Chain.Id( smoldot_add_chain(string) )
     }
@@ -65,7 +63,7 @@ public final class Client {
     ///
     public func remove(chain: inout Chain) throws {
         guard let id = chain.id else {
-            throw ClientError(message: "Chain not found in client.")
+            throw ClientError.chainNotFound
         }
         smoldot_remove_chain(id)
     }
@@ -79,12 +77,12 @@ public final class Client {
     ///
     public func send(request: JSONRPC2Request, to chain: Chain) throws {
         guard let id = chain.id else {
-            throw ClientError(message: "Chain not found in client.")
+            throw ClientError.chainNotFound
         }
         let encoder = JSONEncoder()
         let data = try encoder.encode(request)
         guard let string = String(data: data, encoding: .utf8) else {
-            throw ClientError(message: "Error encoding request.")
+            throw ClientError.errorEncodingRequest
         }
         smoldot_json_rpc_request(id, string)
     }
@@ -104,7 +102,7 @@ public final class Client {
             Task.detached {
                 while (true) {
                     guard let id = chain.id else {
-                        throw ClientError(message: "Chain not found in client.")
+                        throw ClientError.chainNotFound
                     }
                     guard let cString = smoldot_wait_next_json_rpc_response(id) else {
                         break
@@ -128,7 +126,7 @@ public final class Client {
     ///
     public func response(from chain: Chain) async throws -> String? {
         guard let id = chain.id else {
-            throw ClientError(message: "Chain not found in client.")
+            throw ClientError.chainNotFound
         }
         guard let cString = smoldot_wait_next_json_rpc_response(id) else {
            return nil
