@@ -59,14 +59,14 @@ final class SmoldotSwiftTests: XCTestCase {
     func testJSONRPC2RequestInvalidJSON() async throws {
         /// Try to build a JSON-RPC2 request from a non-JSON value.
         XCTAssertThrowsError( try JSONRPC2Request(string: "invalid json") ) { error in
-            XCTAssertTrue( (error as! JSONRPC2Error).kind == JSONRPC2Error.invalidRequest )
+            XCTAssertTrue( (error as! JSONRPC2Error).code == JSONRPC2Error.Code.invalidRequest )
         }
     }
     
     func testJSONRPC2RequestInvalidJSONRPCVersion() async throws {
         /// Try to build a JSON-RPC 1.0 request.
         XCTAssertThrowsError( try JSONRPC2Request(string: "{\"id\":1,\"jsonrpc\":\"1.0\",\"method\":\"system_chain\",\"params\":[]}") ) { error in
-            XCTAssertTrue( (error as! JSONRPC2Error).kind == JSONRPC2Error.invalidRequest )
+            XCTAssertTrue( (error as! JSONRPC2Error).code == JSONRPC2Error.Code.invalidRequest )
         }
     }
     

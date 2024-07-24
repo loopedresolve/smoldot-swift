@@ -13,7 +13,7 @@ let package = Package(
             targets: ["SmoldotSwift"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/finsig/json-rpc2", from: "0.1.0")
+        .package(url: "https://github.com/finsig/json-rpc2", from: "0.1.1")
     ],
     targets: [
         .target(
