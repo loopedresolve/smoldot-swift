@@ -15,7 +15,7 @@ Add the package declaration to your project's manifest dependencies array:
 
 A Chain Specification file must be provided to initialize a chain. A Chain Specification is a JSON Object that describes a Polkadot-based blockchain network. 
 
-Sample Chain Specification JSON files for Polkadot, Kusama, Rococo, and Westend can be copied for use from: ``/Tests/SmoldotSwiftTests/Resources``
+*Example Chain Specification JSON files for Polkadot, Kusama, Rococo, and Westend can be copied for use from [/Tests/SmoldotSwiftTests/Resources](https://github.com/loopedresolve/smoldot-swift/tree/main/Tests/SmoldotSwiftTests/Resources).*
 
 
 Initialize a chain from a specification file:
