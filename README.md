@@ -20,7 +20,7 @@ A Chain Specification file must be provided to initialize a chain. A Chain Speci
 
 Initialize a chain from a specification file:
 
-```
+```swift
 var chain = Chain(specificationFile: {Resource file URL})
 ```
 
