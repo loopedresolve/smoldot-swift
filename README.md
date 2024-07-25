@@ -13,11 +13,15 @@ Add the package declaration to your project's manifest dependencies array:
 
 ## Usage
 
-Initialize a Chain from a specification. A Chain Specification is a JSON Object that describes a Polkadot-based blockchain network. Chain Specifications for Polkadot, Kusama, Rococo, and Westend are provided.
+A Chain Specification file must be provided to initialize a chain. A Chain Specification is a JSON Object that describes a Polkadot-based blockchain network. 
+
+Sample Chain Specification JSON files for Polkadot, Kusama, Rococo, and Westend can be copied for use from: ``/Tests/SmoldotSwiftTests/Resources``
 
 
-```swift
-var chain = Chain(specification: .polkadot)
+Initialize a chain from a specification file:
+
+```
+var chain = Chain(specificationFile: {Resource file URL})
 ```
 
 Add the chain to the client to connect to the network:
